@@ -366,6 +366,9 @@
     <!-- Content description of the clear button in the notification panel for accessibility (not shown on the screen). [CHAR LIMIT=NONE] -->
     <string name="accessibility_clear_all">Clear all notifications.</string>
 
+    <string name="recent_apps_title">Recent apps</string>
+    <string name="recents_kill_all_button_text">Kill all</string>
+
     <!-- Description of the desk dock action that invokes the Android Dreams screen saver feature -->
     <string name="dreams_dock_launcher">Activate screen saver</string>
 
@@ -424,7 +427,6 @@
 
     <string name="battery_test">99</string>
 
-    <string name="recents_kill_all_button_text">Kill all</string>
     <string name="app_killed_message">App killed</string>
     <string name="update_weather">Updating weather</string>
 

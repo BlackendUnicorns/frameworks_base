@@ -73,7 +73,21 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
+import android.view.ViewGroup.LayoutParams;
+import android.view.ViewParent;
+import android.widget.*;
+import android.widget.ImageView.ScaleType;
+
+import com.android.internal.R;
+import com.android.internal.policy.impl.KeyguardUpdateMonitor.InfoCallbackImpl;
+import com.android.internal.policy.impl.KeyguardUpdateMonitor.SimStateCallback;
+import com.android.internal.telephony.IccCard.State;
+import com.android.internal.widget.DigitalClock;
+import com.android.internal.widget.LockPatternUtils;
+import com.android.internal.widget.SlidingTab;
+import com.android.internal.widget.WaveView;
+import com.android.internal.widget.multiwaveview.GlowPadView;
+import com.android.internal.widget.multiwaveview.TargetDrawable;
 
 import java.io.File;
 import java.net.URISyntaxException;
@@ -84,7 +98,7 @@ import java.util.ArrayList;
  * information about the device depending on its state, and how to get
  * past it, as applicable.
  */
-class LockScreen extends LinearLayout implements KeyguardScreen {
+class LockScreen extends RelativeLayout implements KeyguardScreen {
 
     private static final int ON_RESUME_PING_DELAY = 500; // delay first ping until the screen is on
     private static final boolean DBG = false;
@@ -125,6 +139,11 @@ class LockScreen extends LinearLayout implements KeyguardScreen {
     private boolean mSilentMode;
     private AudioManager mAudioManager;
     private boolean mEnableMenuKeyInLockScreen;
+
+    // Sinful Unicorns 
+    private TextView mJBMPleft;
+    private TextView mJBMPright;
+
 
     private KeyguardStatusViewManager mStatusViewManager;
     private UnlockWidgetCommonMethods mUnlockWidgetMethods;
@@ -824,6 +843,30 @@ class LockScreen extends LinearLayout implements KeyguardScreen {
         mUnlockWidget = findViewById(R.id.unlock_widget);
         mUnlockWidgetMethods = createUnlockMethods(mUnlockWidget);
         updateSettings();
+
+        mJBMPleft = new TextView(context);
+        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+        lp.leftMargin = 4;
+        lp.bottomMargin = 4;
+        lp.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+        lp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+        mJBMPleft.setLayoutParams(lp);
+        mJBMPleft.setVisibility(View.VISIBLE);
+        mJBMPleft.setText("Sinful Unicorns" + android.os.SystemProperties.get("ro.modversion"));
+        mJBMPleft.setTextColor(0xffffffff);
+        this.addView(mJBMPleft);
+
+        mJBMPright = new TextView(context);
+        lp = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+        lp.rightMargin = 4;
+        lp.bottomMargin = 4;
+        lp.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+        lp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+        mJBMPright.setLayoutParams(lp);
+        mJBMPright.setVisibility(View.VISIBLE);
+        mJBMPright.setText("Team Osiris");
+        mJBMPright.setTextColor(0xffffffff);
+        this.addView(mJBMPright);
 
         if (DBG) Log.v(TAG, "*** LockScreen accel is "
                 + (mUnlockWidget.isHardwareAccelerated() ? "on":"off"));
